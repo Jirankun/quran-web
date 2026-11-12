@@ -1,0 +1,58 @@
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  flex: none;
+  background-color: currentColor;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.icon-book {
+  -webkit-mask-image: url("icons/book-outline.svg");
+  mask-image: url("icons/book-outline.svg");
+}
+
+.icon-search {
+  -webkit-mask-image: url("icons/search-outline.svg");
+  mask-image: url("icons/search-outline.svg");
+}
+
+.icon-chevron-back {
+  -webkit-mask-image: url("icons/chevron-back-outline.svg");
+  mask-image: url("icons/chevron-back-outline.svg");
+}
+
+.icon-chevron-forward {
+  -webkit-mask-image: url("icons/chevron-forward-outline.svg");
+  mask-image: url("icons/chevron-forward-outline.svg");
+}
+
+.icon-chevron-down {
+  -webkit-mask-image: url("icons/chevron-down-outline.svg");
+  mask-image: url("icons/chevron-down-outline.svg");
+}
+
+.icon-arrow-up {
+  -webkit-mask-image: url("icons/arrow-up-outline.svg");
+  mask-image: url("icons/arrow-up-outline.svg");
+}
+
+.icon-menu {
+  -webkit-mask-image: url("icons/menu-outline.svg");
+  mask-image: url("icons/menu-outline.svg");
+}
+
+.icon-eye {
+  -webkit-mask-image: url("icons/eye-outline.svg");
+  mask-image: url("icons/eye-outline.svg");
+}
+
+.icon-eye-off {
+  -webkit-mask-image: url("icons/eye-off-outline.svg");
+  mask-image: url("icons/eye-off-outline.svg");
+}
