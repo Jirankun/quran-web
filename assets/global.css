@@ -149,10 +149,6 @@ input:focus-visible {
     color: var(--accent);
 }
 
-.accent {
-    color: var(--accent);
-}
-
 @media (min-width: 900px) {
     .container {
         max-width: 960px;
@@ -170,5 +166,9 @@ input:focus-visible {
 }
 
 .bawah:hover {
+    color: #8b5cf6;
+}
+
+.digital {
     color: #8b5cf6;
 }

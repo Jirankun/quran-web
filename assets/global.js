@@ -116,7 +116,8 @@ window.Quran = {
         [114, "الناس", "An-Nas", 6],
     ],
 
-    surahPath(number) {
-        return "surah/index.html?surah=" + number;
+    surahPath(number, ayah) {
+        const path = "surah/index.html?surah=" + number;
+        return ayah ? path + "&ayah=" + ayah + "#ayah-" + ayah : path;
     },
 };

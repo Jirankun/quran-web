@@ -9,16 +9,16 @@
     layer.innerHTML =
         '<div class="menu-dropdown" hidden>' +
         '<div class="menu-view menu-main">' +
-        '<button class="menu-item" type="button" data-menu-view="search">Cari ayat</button>' +
+        '<button class="menu-item" type="button" data-menu-view="search">Cari</button>' +
         '<button class="menu-item" type="button" data-menu-view="settings">Pengaturan</button>' +
         "</div>" +
         '<div class="menu-view menu-search" hidden>' +
-        '<p class="menu-title">Cari ayat</p>' +
+        '<p class="menu-title">Cari</p>' +
         '<div class="menu-search-row">' +
-        '<input id="ayah-search" type="search" inputmode="numeric" placeholder="Contoh: 2:255" autocomplete="off" aria-label="Cari ayat">' +
+        '<input id="ayah-search" type="search" inputmode="numeric" placeholder="Contoh: 2.255" autocomplete="off" aria-label="Cari">' +
         '<button class="menu-ok" id="ayah-ok" type="button" disabled>Oke</button>' +
         "</div>" +
-        '<p class="menu-hint" id="ayah-hint">Ketik surah:ayat, misalnya 2:255.</p>' +
+        '<p class="menu-hint" id="ayah-hint">Ketik surah.ayat, misalnya 2.255.</p>' +
         '<ul class="suggestions" id="ayah-suggestions" hidden></ul>' +
         "</div>" +
         "</div>" +
@@ -213,7 +213,7 @@
     function parseInput(value) {
         const match = String(value)
             .trim()
-            .match(/^(\d{1,3})\s*[:.\s]\s*(\d{1,3})$/);
+            .match(/^(\d{1,3})\s*\.\s*(\d{1,3})$/);
         if (!match) {
             return null;
         }
@@ -243,7 +243,7 @@
         const raw = String(value).trim();
         let surah = 0;
         let prefix = "";
-        let match = raw.match(/^(\d{1,3})\s*[:.\s]\s*(\d{0,3})$/);
+        let match = raw.match(/^(\d{1,3})\s*\.\s*(\d{0,3})$/);
         if (match) {
             surah = Number(match[1]);
             prefix = match[2];
@@ -258,11 +258,10 @@
             return [];
         }
         const count = Quran.surahs[surah - 1][3];
-        const latin = Quran.surahs[surah - 1][2];
         const list = [];
-        for (let ayah = 1; ayah <= count && list.length < 8; ayah += 1) {
+        for (let ayah = 1; ayah <= count; ayah += 1) {
             if (String(ayah).indexOf(prefix) === 0) {
-                list.push({ surah: surah, ayah: ayah, latin: latin });
+                list.push({ surah: surah, ayah: ayah });
             }
         }
         return list;
@@ -280,16 +279,13 @@
                 return (
                     '<li><button class="suggestion" type="button" data-value="' +
                     item.surah +
-                    ":" +
+                    "." +
                     item.ayah +
                     '">' +
                     '<span class="suggestion-number">' +
                     item.surah +
-                    ":" +
+                    "." +
                     item.ayah +
-                    "</span>" +
-                    '<span class="suggestion-name">' +
-                    item.latin +
                     "</span>" +
                     "</button></li>"
                 );
@@ -301,13 +297,18 @@
     function updateSearch() {
         const value = input.value.trim();
         const parsed = parseInput(value);
+        const match = value.match(/^(\d{1,3})(?:\s*\.\s*\d{0,3})?$/);
+        const surahNumber = match ? Number(match[1]) : 0;
+        const surah = surahNumber >= 1 && surahNumber <= 114 ? Quran.surahs[surahNumber - 1] : null;
         okButton.disabled = !parsed || !parsed.valid;
         if (!value) {
-            hint.textContent = "Ketik surah:ayat, misalnya 2:255.";
+            hint.textContent = "Ketik surah.ayat, misalnya 2.255.";
         } else if (parsed) {
-            hint.textContent = parsed.message;
+            hint.textContent = surah[2] + ": " + surah[3] + " ayat. Ayat " + parsed.ayah + " dipilih.";
+        } else if (surah) {
+            hint.textContent = surah[2] + ": " + surah[3] + " ayat. Pilih nomor ayat.";
         } else {
-            hint.textContent = "Ketik surah:ayat, misalnya 2:255.";
+            hint.textContent = "Ketik surah.ayat, misalnya 2.255.";
         }
         renderSuggestions();
     }
@@ -326,13 +327,18 @@
             typeof Quran.focusAyah === "function" &&
             Quran.focusAyah(parsed.ayah)
         ) {
+            window.history.pushState(
+                null,
+                "",
+                "?surah=" + parsed.surah + "&ayah=" + parsed.ayah + "#ayah-" + parsed.ayah,
+            );
             return;
         }
         if (isReader) {
-            window.location.search = "?surah=" + parsed.surah + "&ayah=" + parsed.ayah;
+            window.location.href = "?surah=" + parsed.surah + "&ayah=" + parsed.ayah + "#ayah-" + parsed.ayah;
             return;
         }
-        window.location.href = Quran.surahPath(parsed.surah) + "&ayah=" + parsed.ayah;
+        window.location.href = Quran.surahPath(parsed.surah, parsed.ayah);
     }
 
     menuButton.addEventListener("click", function () {
@@ -371,10 +377,8 @@
             return;
         }
         input.value = item.getAttribute("data-value");
-        input.focus();
-        input.setSelectionRange(input.value.length, input.value.length);
         updateSearch();
-        suggestions.hidden = true;
+        goToAyah();
     });
 
     settingsClose.addEventListener("click", closeSettings);
