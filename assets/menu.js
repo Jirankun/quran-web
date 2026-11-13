@@ -5,12 +5,16 @@
     }
 
     const layer = document.createElement("div");
+    const infoPath = document.getElementById("reader") ? "../informasi/" : "./informasi/";
     layer.className = "menu-layer";
     layer.innerHTML =
         '<div class="menu-dropdown" hidden>' +
         '<div class="menu-view menu-main">' +
-        '<button class="menu-item" type="button" data-menu-view="search">Cari</button>' +
-        '<button class="menu-item" type="button" data-menu-view="settings">Pengaturan</button>' +
+        '<button class="menu-item" type="button" data-menu-view="search"><span class="icon icon-search" aria-hidden="true"></span><span>Cari</span></button>' +
+        '<button class="menu-item" type="button" data-menu-view="settings"><span class="icon icon-settings" aria-hidden="true"></span><span>Pengaturan</span></button>' +
+        '<a class="menu-item" href="' +
+        infoPath +
+        '"><span class="icon icon-information" aria-hidden="true"></span><span>Info</span></a>' +
         "</div>" +
         '<div class="menu-view menu-search" hidden>' +
         '<p class="menu-title">Cari</p>' +

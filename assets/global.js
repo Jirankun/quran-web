@@ -117,7 +117,7 @@ window.Quran = {
     ],
 
     surahPath(number, ayah) {
-        const path = "surah/index.html?surah=" + number;
+        const path = "surah/?surah=" + number;
         return ayah ? path + "&ayah=" + ayah + "#ayah-" + ayah : path;
     },
 };

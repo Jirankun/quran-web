@@ -3,8 +3,7 @@
     top: 59px;
     right: 12px;
     z-index: 40;
-    width: calc(100vw - 24px);
-    max-width: 360px;
+    width: min(260px, calc(100vw - 24px));
     background: var(--bg-lift);
     border: 1px solid var(--line);
 }
@@ -22,11 +21,23 @@
 }
 
 .menu-item {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 12px;
     width: 100%;
     padding: 13px 16px;
     text-align: left;
     font-size: 21px;
+}
+
+.menu-item .icon {
+    width: 20px;
+    height: 20px;
+    color: #fff;
+}
+
+.menu-item > span:last-child {
+    color: var(--text);
 }
 
 .menu-item + .menu-item {

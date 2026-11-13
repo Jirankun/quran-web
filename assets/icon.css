@@ -17,6 +17,21 @@
     mask-image: url("icons/book-outline.svg");
 }
 
+.icon-search {
+    -webkit-mask-image: url("icons/search-outline.svg");
+    mask-image: url("icons/search-outline.svg");
+}
+
+.icon-settings {
+    -webkit-mask-image: url("icons/settings-outline.svg");
+    mask-image: url("icons/settings-outline.svg");
+}
+
+.icon-information {
+    -webkit-mask-image: url("icons/information-circle-outline.svg");
+    mask-image: url("icons/information-circle-outline.svg");
+}
+
 .icon-chevron-back {
     -webkit-mask-image: url("icons/chevron-back-outline.svg");
     mask-image: url("icons/chevron-back-outline.svg");
