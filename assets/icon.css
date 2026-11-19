@@ -66,3 +66,38 @@
     -webkit-mask-image: url("icons/eye-off-outline.svg");
     mask-image: url("icons/eye-off-outline.svg");
 }
+
+.icon-bookmark {
+    -webkit-mask-image: url("icons/bookmark-outline.svg");
+    mask-image: url("icons/bookmark-outline.svg");
+}
+
+.icon-bookmark-filled {
+    -webkit-mask-image: url("icons/bookmark.svg");
+    mask-image: url("icons/bookmark.svg");
+}
+
+.icon-bookmarks {
+    -webkit-mask-image: url("icons/bookmarks-outline.svg");
+    mask-image: url("icons/bookmarks-outline.svg");
+}
+
+.icon-check {
+    -webkit-mask-image: url("icons/checkmark-outline.svg");
+    mask-image: url("icons/checkmark-outline.svg");
+}
+
+.icon-check-filled {
+    -webkit-mask-image: url("icons/checkmark.svg");
+    mask-image: url("icons/checkmark.svg");
+}
+
+.icon-person {
+    -webkit-mask-image: url("icons/person-circle-outline.svg");
+    mask-image: url("icons/person-circle-outline.svg");
+}
+
+.icon-close {
+    -webkit-mask-image: url("icons/close.svg");
+    mask-image: url("icons/close.svg");
+}

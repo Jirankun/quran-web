@@ -167,10 +167,28 @@ function ayahBlock(ayah, arabic, translation, tafsir) {
         '<span class="ayah-number">' +
         ayah +
         "</span>" +
+        '<div class="ayah-bar-actions">' +
+        '<div class="ayah-actions">' +
+        '<button class="ayah-action ayah-bookmark" type="button" data-bookmark="' +
+        ayah +
+        '" aria-pressed="false" aria-label="Tandai bookmark ayat ' +
+        ayah +
+        '">' +
+        '<span class="icon icon-bookmark" aria-hidden="true"></span>' +
+        "</button>" +
+        '<button class="ayah-action ayah-check" type="button" data-check="' +
+        ayah +
+        '" aria-pressed="false" aria-label="Tandai sudah sampai ayat ' +
+        ayah +
+        '">' +
+        '<span class="icon icon-check" aria-hidden="true"></span>' +
+        "</button>" +
+        "</div>" +
         '<button class="tafsir-toggle" type="button" aria-expanded="false">' +
         "<span>Tafsir</span>" +
         '<span class="icon icon-chevron-down" aria-hidden="true"></span>' +
         "</button>" +
+        "</div>" +
         "</div>" +
         '<div class="ayah-arabic-wrap">' +
         '<button class="eye-button arab-eye" type="button" data-reveal="arab" aria-label="Tampilkan teks Arab ayat ini" aria-pressed="false">' +
@@ -259,6 +277,8 @@ function render(surah) {
         "</nav>" +
         '<div class="to-top"><a href="#"><span class="icon icon-arrow-up" aria-hidden="true"></span>Kembali ke atas</a></div>';
 
+    syncAyahActions();
+
     if (typeof document.dispatchEvent === "function" && typeof CustomEvent === "function") {
         document.dispatchEvent(new CustomEvent("quran:rendered"));
     }
@@ -271,6 +291,33 @@ function render(surah) {
             });
         });
     }
+}
+
+function syncAyahActions() {
+    const account = window.QuranAccount;
+    const signed = Boolean(account && account.getName && account.getName());
+    reader.querySelectorAll(".ayah-bookmark").forEach(function (button) {
+        const ayah = Number(button.getAttribute("data-bookmark"));
+        const active = signed && account.isBookmarked(surahNumber, ayah);
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-pressed", String(active));
+        button.setAttribute("aria-label", (active ? "Hapus bookmark ayat " : "Tandai bookmark ayat ") + ayah);
+        const icon = button.querySelector(".icon");
+        if (icon) {
+            icon.className = "icon " + (active ? "icon-bookmark-filled" : "icon-bookmark");
+        }
+    });
+    reader.querySelectorAll(".ayah-check").forEach(function (button) {
+        const ayah = Number(button.getAttribute("data-check"));
+        const active = signed && account.isLastRead(surahNumber, ayah);
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-pressed", String(active));
+        button.setAttribute("aria-label", active ? "Ayat terakhir dibaca" : "Tandai sudah sampai ayat " + ayah);
+        const icon = button.querySelector(".icon");
+        if (icon) {
+            icon.className = "icon " + (active ? "icon-check-filled" : "icon-check");
+        }
+    });
 }
 
 function focusAyah(ayah, behavior) {
@@ -305,6 +352,23 @@ function toggleTafsir(event) {
 }
 
 reader.addEventListener("click", toggleTafsir);
+
+reader.addEventListener("click", function (event) {
+    const bookmark = event.target.closest(".ayah-bookmark");
+    if (bookmark) {
+        if (window.QuranAccount) {
+            window.QuranAccount.toggleBookmark(surahNumber, Number(bookmark.getAttribute("data-bookmark")));
+        }
+        return;
+    }
+
+    const check = event.target.closest(".ayah-check");
+    if (check && window.QuranAccount) {
+        window.QuranAccount.setLastRead(surahNumber, Number(check.getAttribute("data-check")));
+    }
+});
+
+document.addEventListener("account:changed", syncAyahActions);
 
 if (!Number.isInteger(surahNumber) || surahNumber < 1 || surahNumber > 114) {
     showError("Surah tidak ditemukan.");

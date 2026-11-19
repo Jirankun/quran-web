@@ -144,7 +144,7 @@
     inset: 0;
     z-index: 60;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: center;
     padding: 18px;
     background: rgba(0, 0, 0, 0.74);
@@ -190,23 +190,46 @@
     margin-top: 22px;
 }
 
+.settings-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 48px;
+    padding: 0 14px;
+    border: 1px solid var(--line);
+    color: var(--accent);
+    font-size: 20px;
+    text-align: center;
+}
+
+.settings-action:hover,
+.settings-action:focus-visible {
+    border-color: var(--accent-strong);
+    background: rgba(139, 92, 246, 0.12);
+}
+
 .mode-group {
     display: flex;
 }
 
 .mode-option {
+    position: relative;
     flex: 1;
     min-height: 46px;
+    padding: 0 10px;
     border: 1px solid var(--line);
     color: var(--muted);
     font-size: 20px;
+    text-align: center;
 }
 
 .mode-option + .mode-option {
-    border-left: 0;
+    margin-left: -1px;
 }
 
 .mode-option.is-active {
+    z-index: 1;
     color: var(--accent);
     border-color: var(--accent-strong);
     background: rgba(139, 92, 246, 0.12);
@@ -272,9 +295,169 @@
     color: var(--text);
 }
 
+.size-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.size-backdrop[hidden] {
+    display: none;
+}
+
+.size-sheet {
+    width: 100%;
+    max-width: 480px;
+    padding-bottom: env(safe-area-inset-bottom);
+    background: var(--bg-lift);
+    border: 1px solid var(--line);
+}
+
+.size-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--line);
+}
+
+.size-back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin-left: -8px;
+    color: var(--accent);
+}
+
+.size-back:hover {
+    color: var(--text);
+}
+
+.size-back .icon {
+    width: 20px;
+    height: 20px;
+}
+
+.size-title {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 400;
+}
+
+.size-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--line);
+}
+
+.size-tab {
+    flex: 1;
+    min-height: 48px;
+    padding: 0 10px;
+    border-bottom: 2px solid transparent;
+    color: var(--muted);
+    font-size: 19px;
+    text-align: center;
+}
+
+.size-tab.is-active {
+    color: var(--accent);
+    border-bottom-color: var(--accent-strong);
+}
+
+.size-body {
+    padding: 18px 18px 22px;
+}
+
+.size-slider-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+}
+
+.size-control {
+    flex: 1;
+    min-width: 0;
+}
+
+.size-ticks {
+    display: flex;
+    justify-content: space-between;
+    height: 12px;
+    padding: 0 1px;
+}
+
+.size-tick {
+    width: 1px;
+    background: var(--line);
+}
+
+.size-range {
+    -webkit-appearance: none;
+    appearance: none;
+    display: block;
+    width: 100%;
+    height: 22px;
+    margin: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.size-range::-webkit-slider-runnable-track {
+    height: 2px;
+    background: linear-gradient(
+        to right,
+        var(--accent-strong) 0 var(--fill, 50%),
+        var(--line) var(--fill, 50%) 100%
+    );
+}
+
+.size-range::-moz-range-track {
+    height: 2px;
+    background: var(--line);
+}
+
+.size-range::-moz-range-progress {
+    height: 2px;
+    background: var(--accent-strong);
+}
+
+.size-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 3px;
+    height: 20px;
+    margin-top: -9px;
+    background: var(--accent);
+    border: 0;
+    border-radius: 0;
+}
+
+.size-range::-moz-range-thumb {
+    width: 3px;
+    height: 20px;
+    background: var(--accent);
+    border: 0;
+    border-radius: 0;
+}
+
+.size-value {
+    min-width: 52px;
+    padding-bottom: 1px;
+    color: var(--accent);
+    font-size: 18px;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    text-align: right;
+}
+
 @media (min-width: 700px) {
     .settings-backdrop {
-        align-items: center;
         padding: 24px;
     }
 }
